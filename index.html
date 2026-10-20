@@ -362,6 +362,30 @@
   :root[data-theme="dark"] .live .dot { color: #0F172A; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .live .dot { color: #0F172A; } }
   .empty { color: var(--text-muted); font-size: 0.92rem; }
+
+  /* 自動產生標註 */
+  h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+  .auto {
+    font-family: var(--sans);
+    font-size: 0.74rem;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .auto.text { color: var(--gold); background: var(--gold-soft); }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+  .legend div { display: flex; align-items: center; gap: 6px; }
 </style>
 </head>
 <body>
@@ -379,7 +403,12 @@
 
 <main class="wrap">
 
-  <section class="stats" aria-label="總覽數字">
+  <div class="legend" aria-label="標註說明">
+    <div><span class="auto">⚙ 自動計算</span>數字、圖表、名單依表單即時計算</div>
+    <div><span class="auto text">⚙ 自動產生文字</span>依固定句型套入數據，非人工撰寫，僅供參考</div>
+  </div>
+
+  <section class="stats" aria-label="總覽數字（自動計算）">
     <div class="stat">
       <div class="label">填寫幹部</div>
       <div class="num"><span id="sPeople">–</span><small>位</small></div>
@@ -403,33 +432,33 @@
   </section>
 
   <section class="card">
-    <h2>各組人力分布</h2>
+    <h2>各組人力分布<span class="auto">⚙ 自動計算</span></h2>
     <p class="sub">長條是目前人數，右側標示調職申請都通過後的人數變化。滑過長條可以看到組員。</p>
     <div class="bars" id="bars"></div>
     <p class="axis-note">※ 人數依每位學長「最後一次填寫」計算；姓名已遮蔽中間字。</p>
   </section>
 
   <section class="card">
-    <h2>調職申請</h2>
+    <h2>調職申請<span class="auto text">⚙ 自動產生文字</span></h2>
     <p class="sub" id="reqSub">&nbsp;</p>
     <div class="req-grid" id="reqs"></div>
   </section>
 
   <section class="card">
-    <h2>攜手前行的建議</h2>
-    <p class="sub">依目前的人力分布自動整理，供班務規劃參考。</p>
+    <h2>攜手前行的建議<span class="auto text">⚙ 自動產生文字</span></h2>
+    <p class="sub">依目前的人力分布，由固定規則挑選建議，未經人工判讀，供班務規劃參考。</p>
     <ul class="advice" id="advice"></ul>
   </section>
 
   <section class="card">
-    <h2>填寫時間軸</h2>
+    <h2>填寫時間軸<span class="auto">⚙ 自動計算</span></h2>
     <p class="sub" id="tlSub">&nbsp;</p>
     <div class="cols" id="cols"></div>
     <div class="col-labels" id="colLabels"></div>
   </section>
 
   <section class="card">
-    <h2>幹部名單</h2>
+    <h2>幹部名單<span class="auto">⚙ 自動計算</span></h2>
     <p class="sub">以每位學長最後一次填寫的內容為準。</p>
     <div class="filters" id="filters" role="group" aria-label="依組別篩選"></div>
     <div class="table-wrap">
@@ -441,7 +470,7 @@
   </section>
 
   <section class="card">
-    <h2>資料提醒</h2>
+    <h2>資料提醒<span class="auto text">⚙ 自動產生文字</span></h2>
     <p class="sub">以下幾點請行政端協助確認。</p>
     <ul class="dq" id="dq"></ul>
   </section>
