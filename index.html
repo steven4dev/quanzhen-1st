@@ -324,6 +324,44 @@
     .card { padding: 18px; }
     .cols, .col-labels { gap: 6px; }
   }
+
+  /* 資料連線狀態 */
+  .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-size: 0.88rem;
+    padding: 6px 14px 6px 8px;
+    border-radius: 999px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .live .dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: #fff;
+    background: var(--text-muted);
+    flex: none;
+  }
+  .live[data-state="ok"] { color: var(--green); background: var(--green-soft); border-color: transparent; }
+  .live[data-state="ok"] .dot { background: var(--green); }
+  .live[data-state="backup"] { color: var(--gold); background: var(--gold-soft); border-color: transparent; }
+  .live[data-state="backup"] .dot { background: var(--gold); }
+  .live[data-state="loading"] .dot { animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) { .live[data-state="loading"] .dot { animation: none; } }
+  :root[data-theme="dark"] .live .dot { color: #0F172A; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .live .dot { color: #0F172A; } }
+  .empty { color: var(--text-muted); font-size: 0.92rem; }
 </style>
 </head>
 <body>
@@ -333,6 +371,9 @@
     <span class="eyebrow">幹部續任調查・分析報告</span>
     <h1>基礎忠恕學院全真分部<br>初級部一年級 第49期</h1>
     <p>感恩每一位學長願意繼續攜手承擔。這份報告整理大家的續任意願與職務期望，讓我們一起把班務的人力安排得更圓滿。</p>
+    <button type="button" class="live" id="live" data-state="loading" title="點一下立即重新讀取">
+      <span class="dot" aria-hidden="true">…</span><span id="liveText">正在連線最新資料…</span>
+    </button>
   </div>
 </header>
 
@@ -341,23 +382,23 @@
   <section class="stats" aria-label="總覽數字">
     <div class="stat">
       <div class="label">填寫幹部</div>
-      <div class="num">20<small>位</small></div>
-      <div class="note">共收到 31 筆回覆</div>
+      <div class="num"><span id="sPeople">–</span><small>位</small></div>
+      <div class="note" id="sPeopleNote">&nbsp;</div>
     </div>
     <div class="stat">
       <div class="label">續留率</div>
-      <div class="num">100<small>%</small></div>
-      <div class="note">全員願意續留</div>
+      <div class="num"><span id="sStay">–</span><small>%</small></div>
+      <div class="note" id="sStayNote">&nbsp;</div>
     </div>
     <div class="stat">
       <div class="label">希望調整職務</div>
-      <div class="num">3<small>位</small></div>
-      <div class="note">其餘 17 位擔任原職</div>
+      <div class="num"><span id="sMove">–</span><small>位</small></div>
+      <div class="note" id="sMoveNote">&nbsp;</div>
     </div>
     <div class="stat">
       <div class="label">只有 1 人的組別</div>
-      <div class="num">5<small>組</small></div>
-      <div class="note">建議補上副手</div>
+      <div class="num"><span id="sSingle">–</span><small>組</small></div>
+      <div class="note" id="sSingleNote">&nbsp;</div>
     </div>
   </section>
 
@@ -370,43 +411,19 @@
 
   <section class="card">
     <h2>調職申請</h2>
-    <p class="sub">3 位學長希望調整職務，提供幹部會議討論參考。</p>
-    <div class="req-grid">
-      <article class="req">
-        <div class="who">古○梅</div>
-        <div class="move"><span class="pill">禮節組</span>→<span class="pill to">總務組</span></div>
-        <div class="why">總務組人手不足</div>
-        <div class="impact">影響：禮節組 5→4 人、總務組 1→2 人，剛好補上總務組唯一的空缺風險。</div>
-      </article>
-      <article class="req">
-        <div class="who">吳○冬</div>
-        <div class="move"><span class="pill">人事組</span>→<span class="pill to">人事組副手</span></div>
-        <div class="why">○淳學長比後學更優秀，YA！</div>
-        <div class="impact">影響：人數不變。○淳學長不在本次填寫名單中，需另外確認是否接任人事組主責。</div>
-      </article>
-      <article class="req">
-        <div class="who">許○菊</div>
-        <div class="move"><span class="pill">禮節組</span>→<span class="pill to">禮節組副組長</span></div>
-        <div class="why">自我提升</div>
-        <div class="impact">影響：人數不變，禮節組多一位副組長，有助於分擔組長工作。</div>
-      </article>
-    </div>
+    <p class="sub" id="reqSub">&nbsp;</p>
+    <div class="req-grid" id="reqs"></div>
   </section>
 
   <section class="card">
     <h2>攜手前行的建議</h2>
-    <p class="sub">依人力分布整理，供班務規劃參考。</p>
-    <ul class="advice">
-      <li><span class="ico">🤝</span><div><b>單人組別互相支援</b><span>活動組、成全組、人事組、影音組目前都只有 1 位學長，總務組在調職通過前也是。可以跟人數較多的禮節組、學術組配對，有人請假時就有學長能接手。</span></div></li>
-      <li><span class="ico">🌱</span><div><b>從學員中邀約新幹部</b><span>影音組和活動組技術性、活動量較高，建議優先邀約有興趣的學員加入，一起承擔、一起成長。</span></div></li>
-      <li><span class="ico">🧭</span><div><b>善用 6 位輔導學長</b><span>輔導學長是人數最多的一群，可以各自陪伴一個單人組別，關心組務，也照顧承擔學長的身心。</span></div></li>
-      <li><span class="ico">📋</span><div><b>確認人事組的主責</b><span>吳○冬學長希望改任副手，請先跟○淳學長確認意願，再公布新的分工。</span></div></li>
-    </ul>
+    <p class="sub">依目前的人力分布自動整理，供班務規劃參考。</p>
+    <ul class="advice" id="advice"></ul>
   </section>
 
   <section class="card">
     <h2>填寫時間軸</h2>
-    <p class="sub">各日期收到的回覆筆數。共 31 筆，有 8 位學長在不同時段重複填寫。</p>
+    <p class="sub" id="tlSub">&nbsp;</p>
     <div class="cols" id="cols"></div>
     <div class="col-labels" id="colLabels"></div>
   </section>
@@ -426,58 +443,88 @@
   <section class="card">
     <h2>資料提醒</h2>
     <p class="sub">以下幾點請行政端協助確認。</p>
-    <ul class="dq">
-      <li>江○珍學長 10/20 那筆的「是否續留」沒有填寫，期望職務填「成全組」、原因填「續任」，本報告視為續留原職務。</li>
-      <li>8 位學長重複填寫 2～3 次，前後內容一致，以最後一次為準。</li>
-      <li>「學員為……」欄位全部空白，未納入分析。</li>
-      <li>本表只包含已填寫的學長，若有幹部尚未回覆，需要對照完整名冊另行追蹤。</li>
-    </ul>
+    <ul class="dq" id="dq"></ul>
   </section>
 
 </main>
 
-<footer>資料來源：第49期幹部續任調查表（表單回覆，截至 2026/10/20）</footer>
+<footer id="foot">資料來源：第49期幹部續任調查表（表單回覆）</footer>
 
 <div class="tip" id="tip" role="tooltip"></div>
 
 <script>
-  // 每位學長最後一次填寫的內容（姓名已遮蔽）
-  const people = [
-    { name: '邱○霖', group: '各組輔導學長', want: '', times: 1, last: '8/16' },
-    { name: '陳○銘', group: '各組輔導學長', want: '', times: 3, last: '10/20' },
-    { name: '黃○蘭', group: '各組輔導學長', want: '', times: 1, last: '8/17' },
-    { name: '李○霖', group: '各組輔導學長', want: '', times: 1, last: '9/11' },
-    { name: '高○正', group: '各組輔導學長', want: '', times: 1, last: '10/20' },
-    { name: '吳○瑜', group: '各組輔導學長', want: '', times: 1, last: '10/20' },
-    { name: '古○筠', group: '禮節組', want: '', times: 1, last: '9/11' },
-    { name: '古○梅', group: '禮節組', want: '總務組', times: 1, last: '9/11' },
-    { name: '黃○嫺', group: '禮節組', want: '', times: 2, last: '10/5' },
-    { name: '許○菊', group: '禮節組', want: '禮節組副組長', times: 1, last: '10/5' },
-    { name: '黃○瑩', group: '禮節組', want: '', times: 1, last: '10/5' },
-    { name: '孫○萍', group: '學術組', want: '', times: 2, last: '10/20' },
-    { name: '廖○琇', group: '學術組', want: '', times: 2, last: '10/20' },
-    { name: '黎○蘭', group: '學術組', want: '', times: 2, last: '10/20' },
-    { name: '廖○婷', group: '學術組', want: '', times: 2, last: '10/20' },
-    { name: '巫○翰', group: '活動組', want: '', times: 3, last: '10/20' },
-    { name: '江○珍', group: '成全組', want: '', times: 3, last: '10/20' },
-    { name: '吳○冬', group: '人事組', want: '人事組副手', times: 1, last: '9/11' },
-    { name: '賴○珠', group: '總務組', want: '', times: 1, last: '10/20' },
-    { name: '卓○翔', group: '影音組', want: '', times: 1, last: '10/20' },
-  ];
-  const groups = ['各組輔導學長', '禮節組', '學術組', '活動組', '成全組', '人事組', '總務組', '影音組'];
-  // 調職都通過後的組別（副組長、副手仍留在原組）
-  const groupAfter = p => p.want === '總務組' ? '總務組' : p.group;
+  // 每 5 分鐘自動重新讀取；切回這個分頁時也會立即讀取
+  const REFRESH_MS = 5 * 60 * 1000;
+  const GROUP_ORDER = ['各組輔導學長', '禮節組', '學術組', '活動組', '成全組', '人事組', '總務組', '影音組'];
 
-  const tip = document.getElementById('tip');
-  function showTip(e, html) {
-    tip.innerHTML = html;
-    tip.classList.add('show');
-    moveTip(e);
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const md = iso => { const [, m, d] = String(iso).split('-'); return `${+m}/${+d}`; };
+  const hm = date => date.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+  // 填寫內容的判讀：期望職務跟原職務不同才算調職；「續留」欄空白但期望職務等於原職務，視為續留原職務
+  const isLeaving = p => /不續留|不再|離開|退出/.test(p.stay);
+  const wantsMove = p => !isLeaving(p) && p.want && p.want !== p.group;
+  const isBlankStay = p => !p.stay;
+
+  /* ---------- 連線與狀態 ---------- */
+  let endpoint = '';
+  let lastOk = null;
+  const live = $('live');
+  function setLive(state, text) {
+    live.dataset.state = state;
+    live.querySelector('.dot').textContent = { ok: '✓', backup: '!', loading: '…' }[state];
+    $('liveText').textContent = text;
   }
+
+  const config = fetch('config.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(c => {
+      const u = String((c && c.endpoint) || '').trim();
+      if (/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u)) endpoint = u;
+    })
+    .catch(() => {});
+
+  const fromBackup = reason => fetch('data.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(d => {
+      render(d);
+      setLive('backup', `${reason}，目前顯示 ${md(d.updated.slice(0, 10))} 的備份資料`);
+    })
+    .catch(() => setLive('backup', '無法讀取資料，請稍後重新整理'));
+
+  let busy = false;
+  async function load() {
+    if (busy) return;
+    busy = true;
+    if (!lastOk) setLive('loading', '正在連線最新資料…');
+    await config;
+    try {
+      if (!endpoint) return await fromBackup('尚未設定即時資料來源');
+      const r = await fetch(endpoint, { cache: 'no-store' });
+      const d = await r.json();
+      if (!d || !d.ok || !Array.isArray(d.people)) throw new Error('bad data');
+      render(d);
+      lastOk = new Date();
+      setLive('ok', `已連線最新資料・${hm(lastOk)} 更新`);
+    } catch (e) {
+      if (lastOk) setLive('backup', `連線中斷，顯示 ${hm(lastOk)} 讀取的資料`);
+      else await fromBackup('即時資料連線失敗');
+    } finally {
+      busy = false;
+    }
+  }
+  live.addEventListener('click', load);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+  setInterval(() => { if (!document.hidden) load(); }, REFRESH_MS);
+  load();
+
+  /* ---------- 提示框 ---------- */
+  const tip = $('tip');
   function moveTip(e) {
     const r = tip.getBoundingClientRect();
     let x, y;
-    if (e.clientX !== undefined && e.type.startsWith('mouse')) {
+    if (e.type.startsWith('mouse')) {
       x = e.clientX + 14; y = e.clientY + 14;
     } else {
       const b = e.currentTarget.getBoundingClientRect();
@@ -488,82 +535,172 @@
     tip.style.left = Math.max(8, x) + 'px';
     tip.style.top = Math.max(8, y) + 'px';
   }
-  function hideTip() { tip.classList.remove('show'); }
   function bindTip(el, html) {
     el.tabIndex = 0;
-    el.addEventListener('mouseenter', e => showTip(e, html));
+    const show = e => { tip.innerHTML = html; tip.classList.add('show'); moveTip(e); };
+    const hide = () => tip.classList.remove('show');
+    el.addEventListener('mouseenter', show);
     el.addEventListener('mousemove', moveTip);
-    el.addEventListener('mouseleave', hideTip);
-    el.addEventListener('focus', e => showTip(e, html));
-    el.addEventListener('blur', hideTip);
+    el.addEventListener('mouseleave', hide);
+    el.addEventListener('focus', show);
+    el.addEventListener('blur', hide);
   }
 
-  // 各組人力分布
-  const max = 6;
-  const barsEl = document.getElementById('bars');
-  groups.forEach(g => {
-    const members = people.filter(p => p.group === g);
-    const now = members.length;
-    const after = people.filter(p => groupAfter(p) === g).length;
-    const d = after - now;
-    const row = document.createElement('div');
-    row.className = 'bar-row';
-    row.setAttribute('aria-label', `${g}：目前 ${now} 人，調整後 ${after} 人`);
-    const deltaHtml = d ? `<span class="delta ${d > 0 ? 'up' : 'down'}">→ ${after}</span>` : '';
-    const flagHtml = after === 1 ? '<span class="flag">⚠ 單人</span>' : '';
-    row.innerHTML = `
-      <div class="bar-name">${g}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${now / max * 100}%"></div></div>
-      <div class="bar-val"><b>${now}</b> 人${deltaHtml}${flagHtml}</div>`;
-    bindTip(row, `<strong>${g}・${now} 人</strong>${members.map(m => m.name).join('、')}${d ? `<br>調整後：${after} 人` : ''}`);
-    barsEl.appendChild(row);
-  });
-
-  // 填寫時間軸
-  const timeline = [['8/16', 3], ['8/17', 2], ['9/11', 4], ['10/4', 8], ['10/5', 3], ['10/20', 11]];
-  const colsEl = document.getElementById('cols');
-  const labelsEl = document.getElementById('colLabels');
-  timeline.forEach(([day, n]) => {
-    const col = document.createElement('div');
-    col.className = 'col';
-    col.setAttribute('aria-label', `${day}：${n} 筆`);
-    col.innerHTML = `<div class="v">${n}</div><div class="c" style="height:${n / 11 * 82}%"></div>`;
-    bindTip(col, `<strong>${day}</strong>收到 ${n} 筆回覆`);
-    colsEl.appendChild(col);
-    const lb = document.createElement('div');
-    lb.textContent = day;
-    labelsEl.appendChild(lb);
-  });
-
-  // 名單表與篩選
-  const tbody = document.getElementById('tbody');
-  const filtersEl = document.getElementById('filters');
+  /* ---------- 畫面 ---------- */
+  let people = [];
+  let groups = [];
   let current = '全部';
+
+  function render(d) {
+    people = d.people;
+    // 依固定順序排列組別，表單新增的組別接在後面
+    const seen = [...new Set(people.map(p => p.group).filter(Boolean))];
+    groups = GROUP_ORDER.filter(g => seen.includes(g)).concat(seen.filter(g => !GROUP_ORDER.includes(g)));
+    if (current !== '全部' && !groups.includes(current)) current = '全部';
+
+    const staying = people.filter(p => !isLeaving(p));
+    const movers = people.filter(wantsMove);
+    // 調職都通過後的組別：期望職務是另一個組才換組，副組長、副手仍留在原組
+    const groupAfter = p => wantsMove(p) && groups.includes(p.want) ? p.want : p.group;
+    const count = (g, fn) => staying.filter(p => fn(p) === g).length;
+    const stats = groups.map(g => ({
+      g,
+      members: people.filter(p => p.group === g),
+      now: count(g, p => p.group),
+      after: count(g, groupAfter),
+    }));
+    const single = stats.filter(s => s.after <= 1);
+
+    // 總覽數字
+    $('sPeople').textContent = people.length;
+    $('sPeopleNote').textContent = `共收到 ${d.total} 筆回覆`;
+    $('sStay').textContent = people.length ? Math.round(staying.length / people.length * 100) : 0;
+    $('sStayNote').textContent = staying.length === people.length ? '全員願意續留' : `${people.length - staying.length} 位不續留`;
+    $('sMove').textContent = movers.length;
+    $('sMoveNote').textContent = `其餘 ${staying.length - movers.length} 位擔任原職`;
+    const singleNow = stats.filter(s => s.now <= 1).length;
+    $('sSingle').textContent = singleNow;
+    $('sSingleNote').textContent = singleNow === single.length
+      ? (singleNow ? '建議補上副手' : '各組都有 2 人以上')
+      : `調職通過後剩 ${single.length} 組`;
+
+    // 各組人力分布
+    const max = Math.max(1, ...stats.map(s => Math.max(s.now, s.after)));
+    const bars = $('bars');
+    bars.innerHTML = '';
+    stats.forEach(({ g, members, now, after }) => {
+      const delta = after - now;
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.setAttribute('aria-label', `${g}：目前 ${now} 人，調整後 ${after} 人`);
+      row.innerHTML = `
+        <div class="bar-name">${esc(g)}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${now / max * 100}%"></div></div>
+        <div class="bar-val"><b>${now}</b> 人${delta ? `<span class="delta ${delta > 0 ? 'up' : 'down'}">→ ${after}</span>` : ''}${after <= 1 ? '<span class="flag">⚠ 單人</span>' : ''}</div>`;
+      bindTip(row, `<strong>${esc(g)}・${now} 人</strong>${members.map(m => esc(m.name)).join('、')}${delta ? `<br>調整後：${after} 人` : ''}`);
+      bars.appendChild(row);
+    });
+
+    // 調職申請
+    $('reqSub').textContent = movers.length ? `${movers.length} 位學長希望調整職務，提供幹部會議討論參考。` : '目前沒有學長申請調整職務。';
+    const stat = g => stats.find(s => s.g === g);
+    $('reqs').innerHTML = movers.map(p => {
+      let impact;
+      if (groups.includes(p.want)) {
+        const from = stat(p.group), to = stat(p.want);
+        impact = `${esc(p.group)} ${from.now}→${from.after} 人、${esc(p.want)} ${to.now}→${to.after} 人。`;
+        if (to.now <= 1) impact += `可以補上${esc(p.want)}的人力缺口。`;
+        if (from.after <= 1) impact += `要留意${esc(p.group)}調整後只剩 ${from.after} 人。`;
+      } else {
+        impact = `人數不變，${esc(p.group)}的分工會跟著調整。`;
+      }
+      return `
+        <article class="req">
+          <div class="who">${esc(p.name)}</div>
+          <div class="move"><span class="pill">${esc(p.group)}</span>→<span class="pill to">${esc(p.want)}</span></div>
+          ${p.reason ? `<div class="why">${esc(p.reason)}</div>` : ''}
+          <div class="impact">影響：${impact}</div>
+        </article>`;
+    }).join('') || '<p class="empty">—</p>';
+
+    // 建議
+    const big = stats.filter(s => s.after >= 3).sort((a, b) => b.after - a.after);
+    const advice = [];
+    if (single.length) {
+      advice.push(['🤝', '單人組別互相支援', `${single.map(s => s.g).join('、')}調整後只有 1 位學長。${big.length ? `可以跟人數較多的${big.slice(0, 2).map(s => s.g).join('、')}配對，` : ''}有人請假時就有學長能接手。`]);
+      advice.push(['🌱', '從學員中邀約新幹部', `優先為${single.map(s => s.g).join('、')}邀約有興趣的學員加入，一起承擔、一起成長。`]);
+    }
+    const mentor = stat('各組輔導學長');
+    if (mentor && mentor.after) {
+      advice.push(['🧭', `善用 ${mentor.after} 位輔導學長`, single.length ? '可以各自陪伴一個單人組別，關心組務，也照顧承擔學長的身心。' : '持續關心各組組務，也照顧承擔學長的身心。']);
+    }
+    movers.filter(p => !groups.includes(p.want)).forEach(p => {
+      advice.push(['📋', `確認${p.group}的分工`, `${p.name}學長希望改任「${p.want}」，請在幹部會議確認分工後再公布。`]);
+    });
+    if (!advice.length) advice.push(['🌿', '人力配置穩定', '各組人數都在 2 人以上，維持目前的分工即可。']);
+    $('advice').innerHTML = advice.map(([ico, t, s]) =>
+      `<li><span class="ico">${ico}</span><div><b>${esc(t)}</b><span>${esc(s)}</span></div></li>`).join('');
+
+    // 填寫時間軸
+    const repeat = people.filter(p => p.times > 1).length;
+    $('tlSub').textContent = `各日期收到的回覆筆數。共 ${d.total} 筆${repeat ? `，有 ${repeat} 位學長重複填寫` : ''}。`;
+    const tmax = Math.max(1, ...d.timeline.map(t => t.n));
+    const cols = $('cols'), labels = $('colLabels');
+    cols.innerHTML = ''; labels.innerHTML = '';
+    d.timeline.forEach(({ date, n }) => {
+      const col = document.createElement('div');
+      col.className = 'col';
+      col.setAttribute('aria-label', `${md(date)}：${n} 筆`);
+      col.innerHTML = `<div class="v">${n}</div><div class="c" style="height:${n / tmax * 82}%"></div>`;
+      bindTip(col, `<strong>${md(date)}</strong>收到 ${n} 筆回覆`);
+      cols.appendChild(col);
+      const lb = document.createElement('div');
+      lb.textContent = md(date);
+      labels.appendChild(lb);
+    });
+
+    // 名單篩選
+    const filters = $('filters');
+    filters.innerHTML = '';
+    ['全部', ...groups].forEach(g => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = g;
+      b.setAttribute('aria-pressed', g === current);
+      b.addEventListener('click', () => {
+        current = g;
+        filters.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.textContent === g));
+        renderTable();
+      });
+      filters.appendChild(b);
+    });
+    renderTable();
+
+    // 資料提醒
+    const notes = [];
+    people.filter(isBlankStay).forEach(p => {
+      notes.push(`${p.name}學長最後一次填寫的「是否續留」沒有填${p.want ? `，期望職務填「${p.want}」` : ''}，本報告視為續留原職務。`);
+    });
+    if (repeat) notes.push(`${repeat} 位學長重複填寫，以最後一次為準。`);
+    notes.push('本表只包含已填寫的學長，若有幹部尚未回覆，需要對照完整名冊另行追蹤。');
+    $('dq').innerHTML = notes.map(n => `<li>${esc(n)}</li>`).join('');
+
+    const lastDay = d.timeline.length ? md(d.timeline[d.timeline.length - 1].date) : '';
+    $('foot').textContent = `資料來源：第49期幹部續任調查表（表單回覆${lastDay ? `，最新一筆 ${lastDay}` : ''}）`;
+  }
+
   function renderTable() {
     const rows = people.filter(p => current === '全部' || p.group === current);
-    tbody.innerHTML = rows.map(p => `
+    $('tbody').innerHTML = rows.map(p => `
       <tr>
-        <td>${p.name}</td>
-        <td>${p.group}</td>
-        <td>${p.want ? '<span class="badge move">續留・調整職務</span>' : '<span class="badge stay">續留・原職務</span>'}</td>
-        <td>${p.want || '—'}</td>
+        <td>${esc(p.name)}</td>
+        <td>${esc(p.group)}</td>
+        <td>${isLeaving(p) ? '<span class="badge multi">不續留</span>' : wantsMove(p) ? '<span class="badge move">續留・調整職務</span>' : '<span class="badge stay">續留・原職務</span>'}</td>
+        <td>${wantsMove(p) ? esc(p.want) : '—'}</td>
         <td class="num">${p.times > 1 ? `<span class="badge multi">${p.times} 次</span>` : '1 次'}</td>
-        <td class="num">${p.last}</td>
+        <td class="num">${md(p.last)}</td>
       </tr>`).join('');
   }
-  ['全部', ...groups].forEach(g => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = g;
-    b.setAttribute('aria-pressed', g === current);
-    b.addEventListener('click', () => {
-      current = g;
-      filtersEl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.textContent === g));
-      renderTable();
-    });
-    filtersEl.appendChild(b);
-  });
-  renderTable();
 </script>
 </body>
 </html>

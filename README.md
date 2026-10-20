@@ -12,6 +12,22 @@ https://steven4dev.github.io/quanzhen-1st/
 
 為了保護個資，網頁上的姓名都已遮蔽中間字。
 
+## 即時資料
+
+網頁會直接讀取 Google 表單回覆，開啟時讀一次，之後每 5 分鐘、或切回分頁時自動更新。
+標題下方的狀態標示：
+
+- ✓ 綠色「已連線最新資料」：正在顯示試算表的即時內容
+- ! 黃色「顯示備份資料」：連不上即時資料，改顯示 `data.json` 的備份
+
+設定方式：
+
+1. 打開調查表的回覆試算表，選「擴充功能 → Apps Script」，貼上 `apps-script.gs` 全部內容並儲存
+2. 按「部署 → 新增部署作業」，類型選「網頁應用程式」，執行身分選「我」，存取權選「所有人」
+3. 把部署網址（`https://script.google.com/macros/s/…/exec`）填到 `config.json` 的 `endpoint`
+
+試算表本身不用公開。Apps Script 只回傳整理過的資料（姓名遮蔽、同一人只留最後一次填寫）。
+
 ## 更新方式
 
 直接編輯 `index.html` 並 commit 到 main 分支，GitHub Pages 會自動重新建置。
