@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>第49期幹部續任分析</title>
+<meta name="description" content="基礎忠恕學院全真分部初級部一年級第49期 幹部續任調查分析">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --bg-main: #EEF7F2;
+    --bg-card: #FFFFFF;
+    --bg-soft: #F1F5F9;
+    --text-primary: #1E293B;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --accent: #0284C7;
+    --accent-soft: #E0F2FE;
+    --green: #059669;
+    --green-soft: #D1FAE5;
+    --gold: #B45309;
+    --gold-soft: #FEF3C7;
+    --line: rgba(71, 85, 105, 0.14);
+    --bar: #0284C7;
+    --bar-hover: #0369A1;
+    --shadow: 0 10px 25px -8px rgba(2, 132, 199, 0.12);
+    --serif: 'Noto Serif TC', serif;
+    --sans: 'Noto Sans TC', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg-main: #0F172A;
+      --bg-card: #1E293B;
+      --bg-soft: #273449;
+      --text-primary: #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-muted: #94A3B8;
+      --accent: #38BDF8;
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --green: #34D399;
+      --green-soft: rgba(52, 211, 153, 0.14);
+      --gold: #FBBF24;
+      --gold-soft: rgba(251, 191, 36, 0.14);
+      --line: rgba(203, 213, 225, 0.14);
+      --bar: #38BDF8;
+      --bar-hover: #7DD3FC;
+      --shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg-main: #0F172A;
+    --bg-card: #1E293B;
+    --bg-soft: #273449;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --accent: #38BDF8;
+    --accent-soft: rgba(56, 189, 248, 0.14);
+    --green: #34D399;
+    --green-soft: rgba(52, 211, 153, 0.14);
+    --gold: #FBBF24;
+    --gold-soft: rgba(251, 191, 36, 0.14);
+    --line: rgba(203, 213, 225, 0.14);
+    --bar: #38BDF8;
+    --bar-hover: #7DD3FC;
+    --shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  header.hero {
+    padding: 56px 0 36px;
+    text-align: center;
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 14px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+  .hero p {
+    color: var(--text-secondary);
+    margin-top: 12px;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  section { margin-bottom: 28px; }
+  .card {
+    background: var(--bg-card);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+  }
+  .sub { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 18px; }
+
+  /* 總覽數字 */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 16px;
+    box-shadow: var(--shadow);
+  }
+  .stat .label { font-size: 0.88rem; color: var(--text-secondary); }
+  .stat .num {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    margin-top: 4px;
+  }
+  .stat .num small { font-size: 1rem; font-weight: 500; color: var(--text-muted); margin-left: 2px; }
+  .stat .note { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* 長條圖 */
+  .bars { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 7.5em 1fr 9.5em;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 6px;
+    border-radius: 8px;
+    position: relative;
+    cursor: default;
+  }
+  .bar-row:hover, .bar-row:focus-visible { background: var(--bg-soft); outline: none; }
+  .bar-name { font-weight: 500; font-size: 0.95rem; }
+  .bar-track { height: 22px; position: relative; }
+  .bar-fill {
+    height: 100%;
+    background: var(--bar);
+    border-radius: 0 4px 4px 0;
+    min-width: 4px;
+    transition: background 0.15s;
+  }
+  .bar-row:hover .bar-fill { background: var(--bar-hover); }
+  .bar-val {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bar-val b { color: var(--text-primary); font-size: 1.05rem; }
+  .delta { font-size: 0.82rem; margin-left: 4px; padding: 1px 6px; border-radius: 6px; }
+  .delta.up { color: var(--green); background: var(--green-soft); }
+  .delta.down { color: var(--gold); background: var(--gold-soft); }
+  .flag {
+    font-size: 0.78rem;
+    color: var(--gold);
+    background: var(--gold-soft);
+    padding: 1px 6px;
+    border-radius: 6px;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .axis-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 12px; }
+
+  /* 提示框 */
+  .tip {
+    position: fixed;
+    pointer-events: none;
+    background: var(--text-primary);
+    color: var(--bg-card);
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 260px;
+    opacity: 0;
+    transition: opacity 0.12s;
+    z-index: 20;
+    line-height: 1.55;
+  }
+  .tip.show { opacity: 1; }
+  .tip strong { display: block; margin-bottom: 2px; }
+
+  /* 調職卡 */
+  .req-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .req {
+    background: var(--bg-soft);
+    border-radius: 14px;
+    padding: 18px;
+    border-left: 4px solid var(--accent);
+  }
+  .req .who { font-weight: 700; font-size: 1.1rem; }
+  .req .move {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .pill {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 1px 10px;
+    font-size: 0.88rem;
+  }
+  .pill.to { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 500; }
+  .req .why { font-size: 0.9rem; color: var(--text-secondary); }
+  .req .why::before { content: "原因："; color: var(--text-muted); }
+  .req .impact { font-size: 0.84rem; color: var(--text-muted); margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px; }
+
+  /* 建議 */
+  .advice { display: grid; gap: 12px; }
+  .advice li {
+    list-style: none;
+    background: var(--bg-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 2em 1fr;
+    gap: 8px;
+  }
+  .advice .ico { font-size: 1.3rem; line-height: 1.4; }
+  .advice b { display: block; }
+  .advice span { color: var(--text-secondary); font-size: 0.93rem; }
+
+  /* 時間軸直條圖 */
+  .cols {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 200px;
+    padding: 0 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    cursor: default;
+    border-radius: 8px 8px 0 0;
+  }
+  .col:hover, .col:focus-visible { background: var(--bg-soft); outline: none; }
+  .col .v { font-size: 0.88rem; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
+  .col .c {
+    width: min(44px, 70%);
+    background: var(--bar);
+    border-radius: 4px 4px 0 0;
+  }
+  .col:hover .c { background: var(--bar-hover); }
+  .col-labels { display: flex; gap: 10px; padding: 6px 4px 0; }
+  .col-labels div { flex: 1; text-align: center; font-size: 0.82rem; color: var(--text-muted); }
+
+  /* 名單表 */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 560px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; background: var(--bg-soft); }
+  td.num { font-variant-numeric: tabular-nums; }
+  .badge { font-size: 0.8rem; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+  .badge.stay { color: var(--green); background: var(--green-soft); }
+  .badge.move { color: var(--accent); background: var(--accent-soft); }
+  .badge.multi { color: var(--gold); background: var(--gold-soft); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .filters button {
+    font: inherit;
+    font-size: 0.86rem;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    padding: 4px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .filters button[aria-pressed="true"] { background: var(--accent); color: var(--bg-card); border-color: var(--accent); }
+
+  .dq li { margin-left: 1.2em; color: var(--text-secondary); margin-bottom: 6px; }
+
+  footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 24px 0 48px; }
+
+  @media (max-width: 760px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .req-grid { grid-template-columns: 1fr; }
+    .bar-row { grid-template-columns: 1fr auto; row-gap: 2px; }
+    .bar-name { grid-column: 1 / -1; }
+    .card { padding: 18px; }
+    .cols, .col-labels { gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">幹部續任調查・分析報告</span>
+    <h1>基礎忠恕學院全真分部<br>初級部一年級 第49期</h1>
+    <p>感恩每一位學長願意繼續攜手承擔。這份報告整理大家的續任意願與職務期望，讓我們一起把班務的人力安排得更圓滿。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="stats" aria-label="總覽數字">
+    <div class="stat">
+      <div class="label">填寫幹部</div>
+      <div class="num">20<small>位</small></div>
+      <div class="note">共收到 31 筆回覆</div>
+    </div>
+    <div class="stat">
+      <div class="label">續留率</div>
+      <div class="num">100<small>%</small></div>
+      <div class="note">全員願意續留</div>
+    </div>
+    <div class="stat">
+      <div class="label">希望調整職務</div>
+      <div class="num">3<small>位</small></div>
+      <div class="note">其餘 17 位擔任原職</div>
+    </div>
+    <div class="stat">
+      <div class="label">只有 1 人的組別</div>
+      <div class="num">5<small>組</small></div>
+      <div class="note">建議補上副手</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>各組人力分布</h2>
+    <p class="sub">長條是目前人數，右側標示調職申請都通過後的人數變化。滑過長條可以看到組員。</p>
+    <div class="bars" id="bars"></div>
+    <p class="axis-note">※ 人數依每位學長「最後一次填寫」計算；姓名已遮蔽中間字。</p>
+  </section>
+
+  <section class="card">
+    <h2>調職申請</h2>
+    <p class="sub">3 位學長希望調整職務，提供幹部會議討論參考。</p>
+    <div class="req-grid">
+      <article class="req">
+        <div class="who">古○梅</div>
+        <div class="move"><span class="pill">禮節組</span>→<span class="pill to">總務組</span></div>
+        <div class="why">總務組人手不足</div>
+        <div class="impact">影響：禮節組 5→4 人、總務組 1→2 人，剛好補上總務組唯一的空缺風險。</div>
+      </article>
+      <article class="req">
+        <div class="who">吳○冬</div>
+        <div class="move"><span class="pill">人事組</span>→<span class="pill to">人事組副手</span></div>
+        <div class="why">○淳學長比後學更優秀，YA！</div>
+        <div class="impact">影響：人數不變。○淳學長不在本次填寫名單中，需另外確認是否接任人事組主責。</div>
+      </article>
+      <article class="req">
+        <div class="who">許○菊</div>
+        <div class="move"><span class="pill">禮節組</span>→<span class="pill to">禮節組副組長</span></div>
+        <div class="why">自我提升</div>
+        <div class="impact">影響：人數不變，禮節組多一位副組長，有助於分擔組長工作。</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>攜手前行的建議</h2>
+    <p class="sub">依人力分布整理，供班務規劃參考。</p>
+    <ul class="advice">
+      <li><span class="ico">🤝</span><div><b>單人組別互相支援</b><span>活動組、成全組、人事組、影音組目前都只有 1 位學長，總務組在調職通過前也是。可以跟人數較多的禮節組、學術組配對，有人請假時就有學長能接手。</span></div></li>
+      <li><span class="ico">🌱</span><div><b>從學員中邀約新幹部</b><span>影音組和活動組技術性、活動量較高，建議優先邀約有興趣的學員加入，一起承擔、一起成長。</span></div></li>
+      <li><span class="ico">🧭</span><div><b>善用 6 位輔導學長</b><span>輔導學長是人數最多的一群，可以各自陪伴一個單人組別，關心組務，也照顧承擔學長的身心。</span></div></li>
+      <li><span class="ico">📋</span><div><b>確認人事組的主責</b><span>吳○冬學長希望改任副手，請先跟○淳學長確認意願，再公布新的分工。</span></div></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>填寫時間軸</h2>
+    <p class="sub">各日期收到的回覆筆數。共 31 筆，有 8 位學長在不同時段重複填寫。</p>
+    <div class="cols" id="cols"></div>
+    <div class="col-labels" id="colLabels"></div>
+  </section>
+
+  <section class="card">
+    <h2>幹部名單</h2>
+    <p class="sub">以每位學長最後一次填寫的內容為準。</p>
+    <div class="filters" id="filters" role="group" aria-label="依組別篩選"></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>姓名</th><th>目前職務</th><th>續任意願</th><th>期望職務</th><th>填寫次數</th><th>最後填寫</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>資料提醒</h2>
+    <p class="sub">以下幾點請行政端協助確認。</p>
+    <ul class="dq">
+      <li>江○珍學長 10/20 那筆的「是否續留」沒有填寫，期望職務填「成全組」、原因填「續任」，本報告視為續留原職務。</li>
+      <li>8 位學長重複填寫 2～3 次，前後內容一致，以最後一次為準。</li>
+      <li>「學員為……」欄位全部空白，未納入分析。</li>
+      <li>本表只包含已填寫的學長，若有幹部尚未回覆，需要對照完整名冊另行追蹤。</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>資料來源：第49期幹部續任調查表（表單回覆，截至 2026/10/20）</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+  // 每位學長最後一次填寫的內容（姓名已遮蔽）
+  const people = [
+    { name: '邱○霖', group: '各組輔導學長', want: '', times: 1, last: '8/16' },
+    { name: '陳○銘', group: '各組輔導學長', want: '', times: 3, last: '10/20' },
+    { name: '黃○蘭', group: '各組輔導學長', want: '', times: 1, last: '8/17' },
+    { name: '李○霖', group: '各組輔導學長', want: '', times: 1, last: '9/11' },
+    { name: '高○正', group: '各組輔導學長', want: '', times: 1, last: '10/20' },
+    { name: '吳○瑜', group: '各組輔導學長', want: '', times: 1, last: '10/20' },
+    { name: '古○筠', group: '禮節組', want: '', times: 1, last: '9/11' },
+    { name: '古○梅', group: '禮節組', want: '總務組', times: 1, last: '9/11' },
+    { name: '黃○嫺', group: '禮節組', want: '', times: 2, last: '10/5' },
+    { name: '許○菊', group: '禮節組', want: '禮節組副組長', times: 1, last: '10/5' },
+    { name: '黃○瑩', group: '禮節組', want: '', times: 1, last: '10/5' },
+    { name: '孫○萍', group: '學術組', want: '', times: 2, last: '10/20' },
+    { name: '廖○琇', group: '學術組', want: '', times: 2, last: '10/20' },
+    { name: '黎○蘭', group: '學術組', want: '', times: 2, last: '10/20' },
+    { name: '廖○婷', group: '學術組', want: '', times: 2, last: '10/20' },
+    { name: '巫○翰', group: '活動組', want: '', times: 3, last: '10/20' },
+    { name: '江○珍', group: '成全組', want: '', times: 3, last: '10/20' },
+    { name: '吳○冬', group: '人事組', want: '人事組副手', times: 1, last: '9/11' },
+    { name: '賴○珠', group: '總務組', want: '', times: 1, last: '10/20' },
+    { name: '卓○翔', group: '影音組', want: '', times: 1, last: '10/20' },
+  ];
+  const groups = ['各組輔導學長', '禮節組', '學術組', '活動組', '成全組', '人事組', '總務組', '影音組'];
+  // 調職都通過後的組別（副組長、副手仍留在原組）
+  const groupAfter = p => p.want === '總務組' ? '總務組' : p.group;
+
+  const tip = document.getElementById('tip');
+  function showTip(e, html) {
+    tip.innerHTML = html;
+    tip.classList.add('show');
+    moveTip(e);
+  }
+  function moveTip(e) {
+    const r = tip.getBoundingClientRect();
+    let x, y;
+    if (e.clientX !== undefined && e.type.startsWith('mouse')) {
+      x = e.clientX + 14; y = e.clientY + 14;
+    } else {
+      const b = e.currentTarget.getBoundingClientRect();
+      x = b.left + 12; y = b.bottom + 6;
+    }
+    x = Math.min(x, window.innerWidth - r.width - 8);
+    y = Math.min(y, window.innerHeight - r.height - 8);
+    tip.style.left = Math.max(8, x) + 'px';
+    tip.style.top = Math.max(8, y) + 'px';
+  }
+  function hideTip() { tip.classList.remove('show'); }
+  function bindTip(el, html) {
+    el.tabIndex = 0;
+    el.addEventListener('mouseenter', e => showTip(e, html));
+    el.addEventListener('mousemove', moveTip);
+    el.addEventListener('mouseleave', hideTip);
+    el.addEventListener('focus', e => showTip(e, html));
+    el.addEventListener('blur', hideTip);
+  }
+
+  // 各組人力分布
+  const max = 6;
+  const barsEl = document.getElementById('bars');
+  groups.forEach(g => {
+    const members = people.filter(p => p.group === g);
+    const now = members.length;
+    const after = people.filter(p => groupAfter(p) === g).length;
+    const d = after - now;
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.setAttribute('aria-label', `${g}：目前 ${now} 人，調整後 ${after} 人`);
+    const deltaHtml = d ? `<span class="delta ${d > 0 ? 'up' : 'down'}">→ ${after}</span>` : '';
+    const flagHtml = after === 1 ? '<span class="flag">⚠ 單人</span>' : '';
+    row.innerHTML = `
+      <div class="bar-name">${g}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${now / max * 100}%"></div></div>
+      <div class="bar-val"><b>${now}</b> 人${deltaHtml}${flagHtml}</div>`;
+    bindTip(row, `<strong>${g}・${now} 人</strong>${members.map(m => m.name).join('、')}${d ? `<br>調整後：${after} 人` : ''}`);
+    barsEl.appendChild(row);
+  });
+
+  // 填寫時間軸
+  const timeline = [['8/16', 3], ['8/17', 2], ['9/11', 4], ['10/4', 8], ['10/5', 3], ['10/20', 11]];
+  const colsEl = document.getElementById('cols');
+  const labelsEl = document.getElementById('colLabels');
+  timeline.forEach(([day, n]) => {
+    const col = document.createElement('div');
+    col.className = 'col';
+    col.setAttribute('aria-label', `${day}：${n} 筆`);
+    col.innerHTML = `<div class="v">${n}</div><div class="c" style="height:${n / 11 * 82}%"></div>`;
+    bindTip(col, `<strong>${day}</strong>收到 ${n} 筆回覆`);
+    colsEl.appendChild(col);
+    const lb = document.createElement('div');
+    lb.textContent = day;
+    labelsEl.appendChild(lb);
+  });
+
+  // 名單表與篩選
+  const tbody = document.getElementById('tbody');
+  const filtersEl = document.getElementById('filters');
+  let current = '全部';
+  function renderTable() {
+    const rows = people.filter(p => current === '全部' || p.group === current);
+    tbody.innerHTML = rows.map(p => `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.group}</td>
+        <td>${p.want ? '<span class="badge move">續留・調整職務</span>' : '<span class="badge stay">續留・原職務</span>'}</td>
+        <td>${p.want || '—'}</td>
+        <td class="num">${p.times > 1 ? `<span class="badge multi">${p.times} 次</span>` : '1 次'}</td>
+        <td class="num">${p.last}</td>
+      </tr>`).join('');
+  }
+  ['全部', ...groups].forEach(g => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = g;
+    b.setAttribute('aria-pressed', g === current);
+    b.addEventListener('click', () => {
+      current = g;
+      filtersEl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.textContent === g));
+      renderTable();
+    });
+    filtersEl.appendChild(b);
+  });
+  renderTable();
+</script>
+</body>
+</html>
