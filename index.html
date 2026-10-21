@@ -531,6 +531,9 @@
     return m ? new Date(+m[1], +m[2], +m[3], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)) : null;
   }
 
+  // 測試用的填寫（姓名含「測試」或 test）不列入任何計算
+  const isTest = name => /測試|test/i.test(name);
+
   // 同一人只留最後一次填寫，姓名一律遮蔽後才交給畫面
   function summarize(table) {
     const head = table.cols.map(c => String(c.label || '').trim());
@@ -539,12 +542,13 @@
     if (c.time < 0 || c.name < 0 || c.group < 0) throw new Error('欄位不符');
     const byName = new Map();
     const days = {};
-    let total = 0;
+    let total = 0, tests = 0;
     table.rows.forEach(r => {
       const get = i => (i >= 0 && r.c[i] && r.c[i].v != null) ? String(r.c[i].v).trim() : '';
       const name = get(c.name);
       const time = toDate(get(c.time));
       if (!name || !time) return;
+      if (isTest(name)) { tests++; return; }
       total++;
       days[ymd(time)] = (days[ymd(time)] || 0) + 1;
       const prev = byName.get(name);
@@ -554,6 +558,7 @@
     const names = [...byName.keys()];
     return {
       total,
+      tests,
       updated: new Date().toISOString(),
       people: names.map(n => {
         const p = byName.get(n);
@@ -759,6 +764,7 @@
     people.filter(isBlankStay).forEach(p => {
       notes.push(`${p.name}學長最後一次填寫的「是否續留」沒有填${p.want ? `，期望職務填「${p.want}」` : ''}，本報告視為續留原職務。`);
     });
+    if (d.tests) notes.push(`已排除 ${d.tests} 筆測試填寫（姓名含「測試」或 test），不列入任何計算。`);
     if (repeat) notes.push(`${repeat} 位學長重複填寫，以最後一次為準。`);
     notes.push('本表只包含已填寫的學長，若有幹部尚未回覆，需要對照完整名冊另行追蹤。');
     $('dq').innerHTML = notes.map(n => `<li>${esc(n)}</li>`).join('');
