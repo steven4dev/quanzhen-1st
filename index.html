@@ -484,7 +484,10 @@
 <script>
   // 每 5 分鐘自動重新讀取；切回這個分頁時也會立即讀取
   const REFRESH_MS = 5 * 60 * 1000;
-  const GROUP_ORDER = ['各組輔導學長', '禮節組', '學術組', '活動組', '成全組', '人事組', '總務組', '影音組'];
+  const GROUP_ORDER = ['各組輔導學長', '禮節組', '學術組', '活動組', '成全組', '人事組', '總務組', '影音組', '特助'];
+  // 編制本來就是 1 人的職務，不列入單人組別的提醒
+  const SOLO_ROLES = ['特助'];
+  const isShort = s => !SOLO_ROLES.includes(s.g) && s.after <= 1;
 
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -652,7 +655,7 @@
       now: count(g, p => p.group),
       after: count(g, groupAfter),
     }));
-    const single = stats.filter(s => s.after <= 1);
+    const single = stats.filter(isShort);
 
     // 總覽數字
     $('sPeople').textContent = people.length;
@@ -661,7 +664,7 @@
     $('sStayNote').textContent = staying.length === people.length ? '全員願意續留' : `${people.length - staying.length} 位不續留`;
     $('sMove').textContent = movers.length;
     $('sMoveNote').textContent = `其餘 ${staying.length - movers.length} 位擔任原職`;
-    const singleNow = stats.filter(s => s.now <= 1).length;
+    const singleNow = stats.filter(s => !SOLO_ROLES.includes(s.g) && s.now <= 1).length;
     $('sSingle').textContent = singleNow;
     $('sSingleNote').textContent = singleNow === single.length
       ? (singleNow ? '建議補上副手' : '各組都有 2 人以上')
@@ -679,7 +682,7 @@
       row.innerHTML = `
         <div class="bar-name">${esc(g)}</div>
         <div class="bar-track"><div class="bar-fill" style="width:${now / max * 100}%"></div></div>
-        <div class="bar-val"><b>${now}</b> 人${delta ? `<span class="delta ${delta > 0 ? 'up' : 'down'}">→ ${after}</span>` : ''}${after <= 1 ? '<span class="flag">⚠ 單人</span>' : ''}</div>`;
+        <div class="bar-val"><b>${now}</b> 人${delta ? `<span class="delta ${delta > 0 ? 'up' : 'down'}">→ ${after}</span>` : ''}${isShort({ g, after }) ? '<span class="flag">⚠ 單人</span>' : ''}</div>`;
       bindTip(row, `<strong>${esc(g)}・${now} 人</strong>${members.map(m => esc(m.name)).join('、')}${delta ? `<br>調整後：${after} 人` : ''}`);
       bars.appendChild(row);
     });
@@ -692,8 +695,8 @@
       if (groups.includes(p.want)) {
         const from = stat(p.group), to = stat(p.want);
         impact = `${esc(p.group)} ${from.now}→${from.after} 人、${esc(p.want)} ${to.now}→${to.after} 人。`;
-        if (to.now <= 1) impact += `可以補上${esc(p.want)}的人力缺口。`;
-        if (from.after <= 1) impact += `要留意${esc(p.group)}調整後只剩 ${from.after} 人。`;
+        if (!SOLO_ROLES.includes(p.want) && to.now <= 1) impact += `可以補上${esc(p.want)}的人力缺口。`;
+        if (isShort(from)) impact += `要留意${esc(p.group)}調整後只剩 ${from.after} 人。`;
       } else {
         impact = `人數不變，${esc(p.group)}的分工會跟著調整。`;
       }
